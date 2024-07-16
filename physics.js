@@ -106,7 +106,7 @@ window.addEventListener('devicemotion', function (event)
 
     ballObjects.forEach(ball => 
     {
-        ball.velocity = ball.velocity.add(accelVector.multiply(0.5));
+        ball.velocity = ball.velocity.add(accelVector.multiply(0.2));
     });
 });
 
