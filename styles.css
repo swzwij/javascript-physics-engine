@@ -23,3 +23,9 @@ body, html {
     background-color: red;
     border-radius: 50%;
 }
+
+.gravity {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+}

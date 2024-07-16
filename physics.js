@@ -97,6 +97,8 @@ function animate()
 
 animate();
 
+const gravityText = document.querySelector('.gravity');
+
 // DeviceMotionEvent handling
 window.addEventListener('devicemotion', function (event) 
 {
@@ -105,6 +107,8 @@ window.addEventListener('devicemotion', function (event)
 
     gravity.x = accelVector.x * 0.1;
     gravity.y = accelVector.y * 0.1;
+
+    gravityText.textContent = `${gravity.x}, ${gravity.y}`;
 
     ballObjects.forEach(ball => 
     {
