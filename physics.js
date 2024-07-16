@@ -23,27 +23,18 @@ class Ball {
 
     updateColor()
     {
-        const middleX = window.innerWidth / 2;
-        const middleY = window.innerHeight / 2;
+        const windowHeight = window.innerHeight;
+        const ballPositionPercentage = this.position.y / windowHeight;
 
-        const distanceToMiddle = Math.sqrt(Math.pow(this.position.x - middleX, 2) + Math.pow(this.position.y - middleY, 2));
+        const gravityDirection = gravity.y > 0 ? 1 : -1;
+        const gravityPercentage = Math.abs(gravity.y) / gravity.magnitude();
 
-        const angleToMiddle = Math.atan2(this.position.y - middleY, this.position.x - middleX);
-        const gravityAngle = Math.atan2(gravity.y, gravity.x);
-
-        const angleDifference = angleToMiddle - gravityAngle;
-        const normalizedAngleDifference = (angleDifference + Math.PI) % (2 * Math.PI) - Math.PI;
-
-        const normalizedDistanceToMiddle = distanceToMiddle / Math.max(window.innerWidth, window.innerHeight);
-
-        const colorValue = normalizedAngleDifference + normalizedDistanceToMiddle;
-
-        if (colorValue < -0.5) {
-            this.element.style.backgroundColor = 'darkblue';
-        } else if (colorValue < 0.5) {
-            this.element.style.backgroundColor = 'blue';
+        if (ballPositionPercentage < 0.33 * gravityPercentage * gravityDirection) {
+            this.element.style.backgroundColor = "lightblue";
+        } else if (ballPositionPercentage < 0.66 * gravityPercentage * gravityDirection) {
+            this.element.style.backgroundColor = "blue";
         } else {
-            this.element.style.backgroundColor = 'lightblue';
+            this.element.style.backgroundColor = "darkblue";
         }
     }
 
