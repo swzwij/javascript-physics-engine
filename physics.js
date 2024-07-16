@@ -3,6 +3,8 @@ const frictionStrength = 0.9;
 const dragCoefficient = 0.00;
 const bounciness = 0.95;
 
+const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+
 let topVelocity = 0;
 
 class Ball {
@@ -12,6 +14,8 @@ class Ball {
         this.position = new Vector(Math.random() * (window.innerWidth - 50), Math.random() * (window.innerHeight - 50));
         this.velocity = new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4);
 
+        this.element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
         this.updatePosition();
     }
 
@@ -19,24 +23,6 @@ class Ball {
     {
         this.element.style.left = `${this.position.x}px`;
         this.element.style.top = `${this.position.y}px`;
-    }
-
-    updateColor()
-    {
-        const windowHeight = window.innerHeight;
-        const ballHeight = this.element.clientHeight;
-        const ballPositionY = this.position.y;
-
-        const gravityDirection = gravity.y > 0 ? 1 : -1;
-        const gravityAngle = Math.atan2(gravity.y, gravity.x);
-        const ballAngle = Math.atan2(ballPositionY - windowHeight / 2, this.position.x - window.innerWidth / 2);
-        const angleDifference = Math.abs(gravityAngle - ballAngle);
-
-        if (angleDifference < Math.PI / 3) {
-            this.element.style.backgroundColor = "lightblue";
-        } else {
-            this.element.style.backgroundColor = "darkblue";
-        }
     }
 
     move() 
@@ -65,7 +51,6 @@ class Ball {
         }
 
         this.updatePosition();
-        this.updateColor();
     }
 
     checkCollision(otherBall) 
