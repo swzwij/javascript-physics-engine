@@ -3,7 +3,7 @@ const frictionStrength = 0.9;
 const dragCoefficient = 0.00;
 const bounciness = 0.95;
 
-const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+const colors = ['#a587ca', '#36cedc', '#8fe968', '#ffea56', '#ffb750', '#fe797b', '#ff5e5e', '#ff6f91', '#ff6fcf', '#b47aea', '#7f7ad8', '#5f9ad1', '#4cc9f0'];
 
 let topVelocity = 0;
 
