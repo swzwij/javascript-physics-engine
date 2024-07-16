@@ -28,12 +28,22 @@ class Ball {
 
         const distanceToMiddle = Math.sqrt(Math.pow(this.position.x - middleX, 2) + Math.pow(this.position.y - middleY, 2));
 
-        if (distanceToMiddle < 150) {
-            this.element.style.backgroundColor = 'lightblue';
-        } else if (distanceToMiddle < 300) {
+        const angleToMiddle = Math.atan2(this.position.y - middleY, this.position.x - middleX);
+        const gravityAngle = Math.atan2(gravity.y, gravity.x);
+
+        const angleDifference = angleToMiddle - gravityAngle;
+        const normalizedAngleDifference = (angleDifference + Math.PI) % (2 * Math.PI) - Math.PI;
+
+        const normalizedDistanceToMiddle = distanceToMiddle / Math.max(window.innerWidth, window.innerHeight);
+
+        const colorValue = normalizedAngleDifference + normalizedDistanceToMiddle;
+
+        if (colorValue < -0.5) {
+            this.element.style.backgroundColor = 'darkblue';
+        } else if (colorValue < 0.5) {
             this.element.style.backgroundColor = 'blue';
         } else {
-            this.element.style.backgroundColor = 'darkblue';
+            this.element.style.backgroundColor = 'lightblue';
         }
     }
 
@@ -116,11 +126,20 @@ window.addEventListener('devicemotion', function (event)
     const acceleration = event.accelerationIncludingGravity;
     const accelVector = new Vector(-acceleration.x || 0, acceleration.y || 0);
 
+    gravity.x = accelVector.x * 0.1;
+    gravity.y = accelVector.y * 0.1;
+
     ballObjects.forEach(ball => 
     {
-        ball.velocity = ball.velocity.add(accelVector.multiply(0.1));
+        ball.velocity = ball.velocity.add(gravity);
     });
 });
+
+if (!window.DeviceMotionEvent)
+{
+    gravity.x = 0;
+    gravity.y = 0.25;
+}
 
 // Desktop shake simulation
 // let lastMouseX = null;
