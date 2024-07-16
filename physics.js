@@ -3,7 +3,6 @@ const frictionStrength = 0.9;
 const dragCoefficient = 0.00;
 const bounciness = 0.95;
 
-const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
 let topVelocity = 0;
 
 class Ball {
@@ -12,10 +11,6 @@ class Ball {
         this.element = element;
         this.position = new Vector(Math.random() * (window.innerWidth - 50), Math.random() * (window.innerHeight - 50));
         this.velocity = new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4);
-
-        const randomColorIndex = Math.floor(Math.random() * colors.length);
-        //const randomColor = colors.splice(randomColorIndex, 1)[0];
-        this.element.style.backgroundColor = colors[randomColorIndex];
 
         this.updatePosition();
     }
@@ -26,8 +21,24 @@ class Ball {
         this.element.style.top = `${this.position.y}px`;
     }
 
+    updateColor()
+    {
+        const middleX = window.innerWidth / 2;
+        const middleY = window.innerHeight / 2;
+
+        const distanceToMiddle = Math.sqrt(Math.pow(this.position.x - middleX, 2) + Math.pow(this.position.y - middleY, 2));
+
+        if (distanceToMiddle < 150) {
+            this.element.style.backgroundColor = 'lightblue';
+        } else if (distanceToMiddle < 300) {
+            this.element.style.backgroundColor = 'blue';
+        } else {
+            this.element.style.backgroundColor = 'darkblue';
+        }
+    }
+
     move() 
-{
+    {
         if (this.velocity.magnitude() < 0.1) {
             this.velocity = new Vector(0, 0);
         }
@@ -52,6 +63,7 @@ class Ball {
         }
 
         this.updatePosition();
+        this.updateColor();
     }
 
     checkCollision(otherBall) 
