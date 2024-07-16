@@ -102,11 +102,11 @@ animate();
 window.addEventListener('devicemotion', function (event) 
 {
     const acceleration = event.accelerationIncludingGravity;
-    const accelVector = new Vector(acceleration.x || 0, acceleration.y || 0);
+    const accelVector = new Vector(-acceleration.x || 0, acceleration.y || 0);
 
     ballObjects.forEach(ball => 
     {
-        ball.velocity = ball.velocity.add(accelVector.multiply(0.1));
+        ball.velocity = ball.velocity.add(accelVector.multiply(0.5));
     });
 });
 
