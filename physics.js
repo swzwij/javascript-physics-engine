@@ -24,15 +24,16 @@ class Ball {
     updateColor()
     {
         const windowHeight = window.innerHeight;
-        const ballPositionPercentage = this.position.y / windowHeight;
+        const ballHeight = this.element.clientHeight;
+        const ballPositionY = this.position.y;
 
         const gravityDirection = gravity.y > 0 ? 1 : -1;
-        const gravityPercentage = Math.abs(gravity.y) / gravity.magnitude();
+        const gravityAngle = Math.atan2(gravity.y, gravity.x);
+        const ballAngle = Math.atan2(ballPositionY - windowHeight / 2, this.position.x - window.innerWidth / 2);
+        const angleDifference = Math.abs(gravityAngle - ballAngle);
 
-        if (ballPositionPercentage < 0.33 * gravityPercentage * gravityDirection) {
+        if (angleDifference < Math.PI / 3) {
             this.element.style.backgroundColor = "lightblue";
-        } else if (ballPositionPercentage < 0.66 * gravityPercentage * gravityDirection) {
-            this.element.style.backgroundColor = "blue";
         } else {
             this.element.style.backgroundColor = "darkblue";
         }
