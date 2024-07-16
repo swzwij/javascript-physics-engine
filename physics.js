@@ -105,10 +105,10 @@ window.addEventListener('devicemotion', function (event)
     const acceleration = event.accelerationIncludingGravity;
     const accelVector = new Vector(-acceleration.x || 0, acceleration.y || 0);
 
-    gravity.x = accelVector.x * 0.1;
-    gravity.y = accelVector.y * 0.1;
+    gravity.x = accelVector.x * 0.03;
+    gravity.y = accelVector.y * 0.03;
 
-    gravityText.textContent = `${gravity.x}, ${gravity.y}`;
+    gravityText.textContent = `${gravity.x.toFixed(2)}, ${gravity.y.toFixed(2)}`;
 
     ballObjects.forEach(ball => 
     {
