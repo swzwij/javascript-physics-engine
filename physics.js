@@ -14,8 +14,8 @@ class Ball {
         this.velocity = new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4);
 
         const randomColorIndex = Math.floor(Math.random() * colors.length);
-        const randomColor = colors.splice(randomColorIndex, 1)[0];
-        this.element.style.backgroundColor = randomColor;
+        //const randomColor = colors.splice(randomColorIndex, 1)[0];
+        this.element.style.backgroundColor = colors[randomColorIndex];
 
         this.updatePosition();
     }
@@ -106,7 +106,7 @@ window.addEventListener('devicemotion', function (event)
 
     ballObjects.forEach(ball => 
     {
-        ball.velocity = ball.velocity.add(accelVector.multiply(0.2));
+        ball.velocity = ball.velocity.add(accelVector.multiply(0.1));
     });
 });
 

@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="container">
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-        <div class="ball"></div>
-    </div>
+    <div id="container"></div>
+    <script>
+        const container = document.getElementById("container");
+
+        for (let i = 0; i < 100; i++) 
+        {
+            const ball = document.createElement("div");
+            ball.classList.add("ball");
+            container.appendChild(ball);
+        }
+    </script>
     <script src="vector.js"></script>
     <script src="physics.js"></script>
 </body>
