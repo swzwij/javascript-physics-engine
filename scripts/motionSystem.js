@@ -13,13 +13,13 @@ window.addEventListener('devicemotion', function (event)
     gravity.x = accelVector.x * 0.05;
     gravity.y = accelVector.y * 0.05;
 
-    gravityText.textContent = `${gravity.x.toFixed(2)}, ${gravity.y.toFixed(2)}`;
+    // gravityText.textContent = `${gravity.x.toFixed(2)}, ${gravity.y.toFixed(2)}`;
 
     if (!window.DeviceMotionEvent || !isMobileDevice()) 
     {
         gravity.x = 0;
         gravity.y = 0.25;
-        gravityText.textContent = ``;
+        // gravityText.textContent = ``;
     }
 
     ballObjects.forEach(ball => 
