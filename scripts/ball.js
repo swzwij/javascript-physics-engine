@@ -1,5 +1,7 @@
-class Ball {
-    constructor(element) {
+class Ball 
+{
+    constructor(element) 
+    {
         this.element = element;
         this.position = new Vector(Math.random() * (window.innerWidth - 50), Math.random() * (window.innerHeight - 50));
         this.velocity = new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4);
@@ -9,12 +11,14 @@ class Ball {
         this.updatePosition();
     }
 
-    updatePosition() {
+    updatePosition() 
+    {
         this.element.style.left = `${this.position.x}px`;
         this.element.style.top = `${this.position.y}px`;
     }
 
-    move() {
+    move() 
+    {
         if (this.velocity.magnitude() < 0.1) {
             this.velocity = new Vector(0, 0);
         }
@@ -26,12 +30,14 @@ class Ball {
 
         this.position = this.position.add(this.velocity);
 
-        if (this.position.x < 0 || this.position.x > window.innerWidth - this.element.clientWidth) {
+        if (this.position.x < 0 || this.position.x > window.innerWidth - this.element.clientWidth) 
+        {
             this.velocity.x *= -bounciness;
             this.position.x = Math.max(0, Math.min(this.position.x, window.innerWidth - this.element.clientWidth));
         }
 
-        if (this.position.y < 0 || this.position.y > window.innerHeight - this.element.clientHeight) {
+        if (this.position.y < 0 || this.position.y > window.innerHeight - this.element.clientHeight) 
+        {
             this.velocity.y *= -bounciness;
             this.position.y = Math.max(0, Math.min(this.position.y, window.innerHeight - this.element.clientHeight));
         }
@@ -39,32 +45,26 @@ class Ball {
         this.updatePosition();
     }
 
-    checkCollision(otherBall) {
+    checkCollision(otherBall) 
+    {
         const distance = this.position.distanceTo(otherBall.position);
         const minDistance = this.element.clientWidth;
 
-        if (distance < minDistance) {
+        if (distance < minDistance) 
+        {
             const angle = Math.atan2(otherBall.position.y - this.position.y, otherBall.position.x - this.position.x);
-            const overlap = (minDistance - distance) / 2;
+            const target = this.position.add(new Vector(Math.cos(angle) * minDistance, Math.sin(angle) * minDistance));
+            const difference = target.subtract(otherBall.position);
 
-            // Move balls apart
-            const displacement = new Vector(Math.cos(angle) * overlap, Math.sin(angle) * overlap);
-            this.position = this.position.subtract(displacement);
-            otherBall.position = otherBall.position.add(displacement);
+            const totalVelocity = this.velocity.add(otherBall.velocity);
+            const averageVelocity = totalVelocity.multiply(0.5);
 
-            // Calculate new velocities
-            const normal = new Vector(Math.cos(angle), Math.sin(angle));
-            const relativeVelocity = this.velocity.subtract(otherBall.velocity);
-            const speed = relativeVelocity.dot(normal);
+            this.velocity = averageVelocity.add(this.velocity.subtract(averageVelocity).multiply(bounciness));
+            otherBall.velocity = averageVelocity.add(otherBall.velocity.subtract(averageVelocity).multiply(bounciness));
 
-            if (speed < 0) return;
-
-            const impulse = normal.multiply((1 + bounciness) * speed / 2);
-            this.velocity = this.velocity.subtract(impulse);
-            otherBall.velocity = otherBall.velocity.add(impulse);
-
-            this.updatePosition();
-            otherBall.updatePosition();
+            const accelerationX = difference.multiply(0.05);
+            this.velocity = this.velocity.subtract(accelerationX);
+            otherBall.velocity = otherBall.velocity.add(accelerationX);
         }
     }
 }
