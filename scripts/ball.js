@@ -1,13 +1,5 @@
-const gravity = new Vector(0, 0.25);
-const frictionStrength = 0.9;
-const dragCoefficient = 0.00;
-const bounciness = 0.95;
-
-const colors = ['#a587ca', '#36cedc', '#8fe968', '#ffea56', '#ffb750', '#fe797b', '#ff5e5e', '#ff6f91', '#ff6fcf', '#b47aea', '#7f7ad8', '#5f9ad1', '#4cc9f0'];
-
-let topVelocity = 0;
-
-class Ball {
+class Ball 
+{
     constructor(element) 
     {
         this.element = element;
@@ -76,69 +68,3 @@ class Ball {
         }
     }
 }
-
-const balls = document.querySelectorAll('.ball');
-const ballObjects = Array.from(balls).map(ball => new Ball(ball));
-
-function animate() 
-{
-    ballObjects.forEach(ball => ball.move());
-
-    for (let i = 0; i < ballObjects.length; i++) 
-    {
-        for (let j = i + 1; j < ballObjects.length; j++) 
-        {
-            ballObjects[i].checkCollision(ballObjects[j]);
-        }
-    }
-
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-const gravityText = document.querySelector('.gravity');
-
-// DeviceMotionEvent handling
-window.addEventListener('devicemotion', function (event) 
-{
-    const acceleration = event.accelerationIncludingGravity;
-    const accelVector = new Vector(-acceleration.x || 0, acceleration.y || 0);
-
-    gravity.x = accelVector.x * 0.05;
-    gravity.y = accelVector.y * 0.05;
-
-    gravityText.textContent = `${gravity.x.toFixed(2)}, ${gravity.y.toFixed(2)}`;
-
-    ballObjects.forEach(ball => 
-    {
-        ball.velocity = ball.velocity.add(gravity);
-    });
-});
-
-if (!window.DeviceMotionEvent)
-{
-    gravity.x = 0;
-    gravity.y = 0.25;
-}
-
-// Desktop shake simulation
-// let lastMouseX = null;
-// let lastMouseY = null;
-
-// window.addEventListener('mousemove', function (event) 
-// {
-//     if (lastMouseX && lastMouseY) 
-//     {
-//         const deltaX = event.clientX - lastMouseX;
-//         const deltaY = event.clientY - lastMouseY;
-
-//         ballObjects.forEach(ball => 
-//         {
-//             ball.velocity = ball.velocity.add(new Vector(deltaX * 0.05, deltaY * 0.05));
-//         });
-//     }
-
-//     lastMouseX = event.clientX;
-//     lastMouseY = event.clientY;
-// });
