@@ -42,4 +42,9 @@ class Vector
     {
         return this.subtract(other).magnitude();
     }
+
+    dot(other) 
+    {
+        return this.x * other.x + this.y * other.y;
+    }
 }
