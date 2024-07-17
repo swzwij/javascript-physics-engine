@@ -1,32 +1,49 @@
-class Ball 
-{
-    constructor(element) 
+class Ball {
+    constructor(element, grid) 
     {
         this.element = element;
-        this.position = new Vector(Math.random() * (window.innerWidth - 50), Math.random() * (window.innerHeight - 50));
-        this.velocity = new Vector((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4);
+        
+        this.position = new Vector
+        (
+            Math.random() * (window.innerWidth - 50),
+            Math.random() * (window.innerHeight - 50)
+        );
+
+        this.velocity = new Vector
+        (
+            (Math.random() - 0.5) * 4,
+            (Math.random() - 0.5) * 4
+        );
+
+        this.grid = grid;
+        this.cellKey = this.grid._getCellKey(this.position);
 
         this.element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
 
         this.updatePosition();
+        this.grid.addBall(this);
     }
 
     updatePosition() 
     {
-        this.element.style.left = `${this.position.x}px`;
-        this.element.style.top = `${this.position.y}px`;
+        const transformValue = `translate(${this.position.x}px, ${this.position.y}px)`;
+
+        if (this.element.style.transform !== transformValue) 
+        {
+            this.element.style.transform = transformValue;
+        }
     }
 
     move() 
     {
-        if (this.velocity.magnitude() < 0.1) {
+        if (this.velocity.magnitude() < 0.05) 
+        {
             this.velocity = new Vector(0, 0);
+        } 
+        else 
+        {
+            this.velocity = this.velocity.add(gravity);
         }
-
-        this.velocity = this.velocity.add(gravity);
-
-        const drag = this.velocity.multiply(-dragCoefficient * this.velocity.magnitude());
-        this.velocity = this.velocity.add(drag);
 
         this.position = this.position.add(this.velocity);
 
@@ -35,7 +52,7 @@ class Ball
             this.velocity.x *= -bounciness;
             this.position.x = Math.max(0, Math.min(this.position.x, window.innerWidth - this.element.clientWidth));
         }
-
+        
         if (this.position.y < 0 || this.position.y > window.innerHeight - this.element.clientHeight) 
         {
             this.velocity.y *= -bounciness;
@@ -43,6 +60,7 @@ class Ball
         }
 
         this.updatePosition();
+        this.grid.updateBall(this);
     }
 
     checkCollision(otherBall) 

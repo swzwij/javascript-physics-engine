@@ -19,7 +19,7 @@ window.addEventListener('devicemotion', function (event)
     {
         gravity.x = 0;
         gravity.y = 0.25;
-        gravityText.textContent = `Works best on mobile!`;
+        gravityText.textContent = ``;
     }
 
     ballObjects.forEach(ball => 
